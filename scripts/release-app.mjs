@@ -45,10 +45,11 @@ if (command === 'prepare') {
     else {
       const runner=join(app,'build/windows/x64/runner/Release');
       if (!existsSync(join(runner,'data/app.so')) || !existsSync(join(runner,'homely_hamster_mobile.exe'))) throw Error('Missing Windows release runtime/AOT executable');
+      run('powershell.exe',['-NoProfile','-NonInteractive','-Command',"$ErrorActionPreference='Stop'; $version=(Get-Item -LiteralPath $env:HH_RELEASE_EXE).VersionInfo.ProductVersion; if ($version -ne $env:HH_RELEASE_VERSION) { throw 'Executable version does not match release manifest' }"],app,{env:{...process.env,HH_RELEASE_EXE:join(runner,'homely_hamster_mobile.exe'),HH_RELEASE_VERSION:`${version}+${build}`}});
       const stage=join(output,'windows');
       mkdirSync(stage);
       for (const name of readdirSync(runner)) {
-        if (name === 'data' || /\.(exe|dll)$/i.test(name)) cpSync(join(runner,name),join(stage,name),{recursive:true});
+        if (name === 'data' || name === 'native_assets.json' || /\.(exe|dll)$/i.test(name)) cpSync(join(runner,name),join(stage,name),{recursive:true});
       }
       writeFileSync(join(stage,'LEGGIMI.txt'),`Homely Hamster ${version} (build ${build}) - ${channel}\r\n\r\nWindows x64: estrai tutta la cartella e avvia homely_hamster_mobile.exe.\r\nConserva le DLL e la cartella data accanto all'eseguibile.\r\nGuida: https://whiteware-lab.github.io/homelyhamster-site/guida/\r\nPacchetto portabile non firmato digitalmente. Nessun aggiornamento automatico.\r\n`);
       run('powershell.exe',['-NoProfile','-NonInteractive','-Command',"$ErrorActionPreference='Stop'; $items=Get-ChildItem -LiteralPath $env:HH_RELEASE_STAGE; Compress-Archive -LiteralPath $items.FullName -DestinationPath $env:HH_RELEASE_ZIP"],app,{env:{...process.env,HH_RELEASE_STAGE:stage,HH_RELEASE_ZIP:destination}});
