@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /homelyhamster-site/
+Sitemap: https://whiteware-lab.github.io/homelyhamster-site/sitemap.xml

@@ -1,0 +1,20 @@
+{
+  "format": "homely-hamster-workout", "schemaVersion": "0.1.0",
+  "id": "homely-intro", "revision": 1, "name": "Demo strutturata · 2 minuti",
+  "description": "Prova breve di rampe, ripetute e Skip. I livelli di resistenza dipendono dal rullo: interrompi se il carico non è adatto.",
+  "sport": "cycling",
+  "root": {"id": "session", "name": "Prova", "kind": "sequence", "children": [
+    {"id": "warmup", "name": "Riscaldamento", "kind": "step", "durationSeconds": 30,
+      "trainerTarget": {"mode": "resistance", "target": {"unit": "percentResistance", "start": 5, "end": 10}},
+      "text": "Puoi provare Skip per passare al blocco successivo."},
+    {"id": "sets", "name": "Ripetute", "kind": "sequence", "repeat": 2, "children": [
+      {"id": "work", "name": "Lavoro", "kind": "step", "durationSeconds": 15,
+        "trainerTarget": {"mode": "resistance", "target": {"unit": "percentResistance", "start": 20}},
+        "athleteTargets": {"cadence": {"unit": "rpm", "start": 80}}},
+      {"id": "rest", "name": "Recupero", "kind": "step", "durationSeconds": 15,
+        "trainerTarget": {"mode": "resistance", "target": {"unit": "percentResistance", "start": 5}}}
+    ]},
+    {"id": "cooldown", "name": "Defaticamento", "kind": "step", "durationSeconds": 30,
+      "trainerTarget": {"mode": "resistance", "target": {"unit": "percentResistance", "start": 5, "end": 0}}}
+  ]}
+}
