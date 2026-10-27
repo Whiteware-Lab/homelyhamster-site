@@ -6,8 +6,11 @@ export function checkAndroidIdentity(badging,signing,version,build,oauthClients)
   const identity=badging.match(/^package: name='([^']+)' versionCode='(\d+)' versionName='([^']+)'/m);
   if (!identity || identity[1] !== 'com.whitewarelab.homelyhamster' || Number(identity[2]) !== build || identity[3] !== version || /^application-debuggable/m.test(badging)) throw Error('APK package/version mismatch or debuggable APK');
   if (/Android Debug/i.test(signing) || !/Verified using v[23](?:\.\d+)? scheme[^\n]*: true/.test(signing)) throw Error('APK must have a release certificate and a valid v2/v3 signature');
-  const sha1=signing.match(/^Signer #1 certificate SHA-1 digest: ([a-fA-F0-9]+)$/m)?.[1]?.toLowerCase();
-  const sha256=signing.match(/^Signer #1 certificate SHA-256 digest: ([a-fA-F0-9]+)$/m)?.[1]?.toLowerCase();
+  // Build-tools 37 uses "V2 Signer:"; earlier tools use "Signer #1".
+  const sha1s=new Set([...signing.matchAll(/^(?:Signer #\d+|V\d(?:\.\d+)? Signer:) certificate SHA-1 digest: ([a-fA-F0-9]+)$/gm)].map(item=>item[1].toLowerCase()));
+  const sha256s=new Set([...signing.matchAll(/^(?:Signer #\d+|V\d(?:\.\d+)? Signer:) certificate SHA-256 digest: ([a-fA-F0-9]+)$/gm)].map(item=>item[1].toLowerCase()));
+  if (sha1s.size !== 1 || sha256s.size !== 1 || /Number of signers: (?!1\b)\d+/.test(signing)) throw Error('Unexpected Android signing identities');
+  const [sha1]=sha1s, [sha256]=sha256s;
   if (!sha1 || !sha256 || !oauthClients.some(item=>item.client_type === 1 && item.android_info?.package_name === identity[1] && item.android_info.certificate_hash?.toLowerCase() === sha1)) throw Error('Signing certificate is missing from the Firebase Google OAuth Android configuration');
   return {sha1,sha256};
 }
