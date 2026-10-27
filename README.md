@@ -58,6 +58,10 @@ ispezionarla manualmente prima di riprovare. Vengono caricati solo i binari,
 il manifest e i checksum; sorgenti, keystore e provenienza locale restano privati.
 La firma release Android richiede di registrare i fingerprint del certificato
 in Firebase/Google prima di distribuire un APK con accesso Google.
+Il builder verifica anche firma v2/v3, flag non debuggable, package, versione
+e presenza del certificato nel client Android Google OAuth di `google-services.json`.
+Su Windows configura i socket temporanei del JDK nella directory di lavoro
+del build, limitatamente al processo, per evitare errori con TEMP reindirizzato.
 
 L'evento `release: published` ricostruisce Pages: `sync-release.mjs` legge
 le release pubblicate (incluse le beta), verifica manifest e allegati e

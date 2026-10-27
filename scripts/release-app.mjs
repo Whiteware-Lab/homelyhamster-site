@@ -4,6 +4,7 @@ import {createHash} from 'node:crypto';
 import {cpSync, existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync} from 'node:fs';
 import {resolve, join, basename} from 'node:path';
 import {repository, validateRelease} from './releases.mjs';
+import {verifyAndroid} from './verify-android.mjs';
 
 const [command, ...arguments_] = process.argv.slice(2);
 const options = {};
@@ -33,7 +34,11 @@ if (command === 'prepare') {
   const output=join(app,'build','releases',tag);
   if (existsSync(output)) throw Error(`Bundle already exists: ${output}. Use a new build number; existing bundles are never overwritten.`);
   if (platforms.includes('android') && !existsSync(join(app,'android/key.properties'))) throw Error('Android release signing missing: configure android/key.properties and the private keystore. Debug APKs are never published. Use --platform windows to release Windows separately.');
-  const flutter = args => run('cmd.exe',['/d','/s','/c',`flutter ${args.join(' ')}`],app);
+  // Native Windows sockets in redirected/MSIX TEMP folders can fail in the JDK.
+  // Keep temporary Java sockets in the build working directory, process-local.
+  const buildEnvironment={...process.env};
+  if (platforms.includes('android') && !buildEnvironment.JAVA_TOOL_OPTIONS?.includes('jdk.net.unixdomain.tmpdir')) buildEnvironment.JAVA_TOOL_OPTIONS=`${buildEnvironment.JAVA_TOOL_OPTIONS || ''} -Djdk.net.unixdomain.tmpdir=.`.trim();
+  const flutter = args => run('cmd.exe',['/d','/s','/c',`flutter ${args.join(' ')}`],app,{env:buildEnvironment});
   if (!options.skipChecks) {flutter(['analyze']); flutter(['test']);}
   for (const platform of platforms) flutter(['build',platform === 'android' ? 'apk' : 'windows','--release',`--build-name=${version}`,`--build-number=${build}`]);
   mkdirSync(output,{recursive:true});
@@ -41,7 +46,11 @@ if (command === 'prepare') {
   for (const platform of platforms) {
     const name=`homelyhamster-${version}-build.${build}-${platform}.${platform === 'android' ? 'apk' : 'zip'}`;
     const destination=join(output,name);
-    if (platform === 'android') cpSync(join(app,'build/app/outputs/flutter-apk/app-release.apk'),destination);
+    if (platform === 'android') {
+      const apk=join(app,'build/app/outputs/flutter-apk/app-release.apk');
+      verifyAndroid(app,apk,version,build);
+      cpSync(apk,destination);
+    }
     else {
       const runner=join(app,'build/windows/x64/runner/Release');
       if (!existsSync(join(runner,'data/app.so')) || !existsSync(join(runner,'homely_hamster_mobile.exe'))) throw Error('Missing Windows release runtime/AOT executable');
