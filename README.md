@@ -65,10 +65,14 @@ genera il catalogo. La homepage viene renderizzata durante il build con
 versione, build, data UTC, dimensione, note e link diretti. Nessuna richiesta
 GitHub API dal browser e nessuna dipendenza da JavaScript per scaricare.
 Android e Windows conservano ciascuno l'ultima build pubblicata disponibile.
+L'ambiente GitHub `github-pages` ammette il branch `main` e i tag
+`v*-build.*`: la seconda regola è necessaria perché gli eventi release
+eseguono il workflow dal tag. Non sono necessari secret di firma nel sito.
 Per ripristinare il sito dopo la rimozione di una release, lanciare manualmente
-il workflow Pages. Per il solo preview locale: `node scripts/sync-release.mjs`,
-`npm run build`; il server di preview serve i sorgenti, quindi i link finali
-vanno verificati anche in `dist/index.html` o sul deploy Pages.
+il workflow Pages. Per il preview locale aggiornato: `node scripts/sync-release.mjs`
+e `npm run preview`. Il server serve solo `dist/`, con gli stessi link e
+contenuti generati per Pages. Il catalogo committato è un fallback per le
+anteprime offline; la CI lo rigenera dalle release pubblicate.
 
 ## Contenuti
 
