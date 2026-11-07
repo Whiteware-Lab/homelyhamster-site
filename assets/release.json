@@ -2,22 +2,22 @@
   {
     "schemaVersion": 1,
     "version": "1.0.10",
-    "build": 15,
+    "build": 16,
     "channel": "beta",
-    "tag": "v1.0.10-build.15-beta",
-    "publishedAt": "2026-11-07T11:20:32.200Z",
+    "tag": "v1.0.10-build.16-beta",
+    "publishedAt": "2026-11-07T17:24:39.267Z",
     "artifacts": [
       {
         "platform": "android",
-        "name": "homelyhamster-1.0.10-build.15-android.apk",
-        "bytes": 68598112,
-        "sha256": "f9a1d69370cc312f51f27d341c7cc807f1520a14412974b8aeb34f850acda78c"
+        "name": "homelyhamster-1.0.10-build.16-android.apk",
+        "bytes": 68714897,
+        "sha256": "7d14fad08733993e21dbd11786238b157cf3ab7322b6bb0f620c94867eec861e"
       },
       {
         "platform": "windows",
-        "name": "homelyhamster-1.0.10-build.15-windows.zip",
-        "bytes": 27444026,
-        "sha256": "cd6f421b72bc80db47fe28b8c1088b55157bd5e5963ae9a166a74bbcfa9ccfe5"
+        "name": "homelyhamster-1.0.10-build.16-windows.zip",
+        "bytes": 27478140,
+        "sha256": "4e08d2729137aa04ebed2a1e68456c467ddac81b8aa5d67ebf87e291536bb85c"
       }
     ]
   }
