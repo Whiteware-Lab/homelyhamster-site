@@ -2,6 +2,22 @@
   {
     "schemaVersion": 1,
     "version": "1.0.10",
+    "build": 14,
+    "channel": "beta",
+    "tag": "v1.0.10-build.14-beta",
+    "publishedAt": "2026-11-07T11:08:36.463Z",
+    "artifacts": [
+      {
+        "platform": "android",
+        "name": "homelyhamster-1.0.10-build.14-android.apk",
+        "bytes": 68598112,
+        "sha256": "ffb29d782a66a2b2cc02d33ac7bf19d415566a20406cdda249156981f3db43e6"
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "version": "1.0.10",
     "build": 13,
     "channel": "beta",
     "tag": "v1.0.10-build.13-beta",
