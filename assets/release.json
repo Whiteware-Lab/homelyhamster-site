@@ -2,38 +2,22 @@
   {
     "schemaVersion": 1,
     "version": "1.0.10",
-    "build": 14,
+    "build": 15,
     "channel": "beta",
-    "tag": "v1.0.10-build.14-beta",
-    "publishedAt": "2026-11-07T11:08:36.463Z",
+    "tag": "v1.0.10-build.15-beta",
+    "publishedAt": "2026-11-07T11:20:32.200Z",
     "artifacts": [
       {
         "platform": "android",
-        "name": "homelyhamster-1.0.10-build.14-android.apk",
+        "name": "homelyhamster-1.0.10-build.15-android.apk",
         "bytes": 68598112,
-        "sha256": "ffb29d782a66a2b2cc02d33ac7bf19d415566a20406cdda249156981f3db43e6"
-      }
-    ]
-  },
-  {
-    "schemaVersion": 1,
-    "version": "1.0.10",
-    "build": 13,
-    "channel": "beta",
-    "tag": "v1.0.10-build.13-beta",
-    "publishedAt": "2026-11-07T09:40:26.546Z",
-    "artifacts": [
-      {
-        "platform": "android",
-        "name": "homelyhamster-1.0.10-build.13-android.apk",
-        "bytes": 68809273,
-        "sha256": "19a7f429341d82f8d3e7ebddcb482b1233df7f8af2a38f8ee0913f7f5b418751"
+        "sha256": "f9a1d69370cc312f51f27d341c7cc807f1520a14412974b8aeb34f850acda78c"
       },
       {
         "platform": "windows",
-        "name": "homelyhamster-1.0.10-build.13-windows.zip",
-        "bytes": 27444273,
-        "sha256": "245cd48a84fa4e8c1b0f02fd85d48a112da598ea81986d4c680cfe8280970113"
+        "name": "homelyhamster-1.0.10-build.15-windows.zip",
+        "bytes": 27444026,
+        "sha256": "cd6f421b72bc80db47fe28b8c1088b55157bd5e5963ae9a166a74bbcfa9ccfe5"
       }
     ]
   }
